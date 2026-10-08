@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SummitFX | Elevate Your Trading</title>
+    
+    <!-- Tailwind CSS for rapid, modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        summit: {
+                            bg: '#0B0F19',
+                            card: '#131927',
+                            border: '#1F2937',
+                            accent: '#10B981', // Emerald green for bullish/money vibes
+                            accentHover: '#059669',
+                        }
+                    },
+                    animation: {
+                        'ticker': 'ticker 30s linear infinite',
+                    },
+                    keyframes: {
+                        ticker: {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(-50%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        body {
+            background-color: #0B0F19;
+            color: #F3F4F6;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        .glass-card {
+            background: rgba(19, 25, 39, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glow {
+            box-shadow: 0 0 40px rgba(16, 185, 129, 0.15);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Supabase Initialization Script -->
+    <script>
+        // TODO: Replace these with your actual Supabase project credentials
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+        
+        // Initialize the Supabase client
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Example: Check if user is logged in
+        async function checkUser() {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                console.log("User is logged in:", user.email);
+                // Update UI to show "Dashboard" instead of "Sign Up"
+            }
+        }
+        checkUser();
+    </script>
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 glass-card border-b border-summit-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-2">
+                    <!-- Logo Icon -->
+                    <svg class="w-8 h-8 text-summit-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                    </svg>
+                    <span class="text-xl font-bold tracking-tight">Summit<span class="text-summit-accent">FX</span></span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#markets" class="text-gray-300 hover:text-white transition">Markets</a>
+                    <a href="#features" class="text-gray-300 hover:text-white transition">Features</a>
+                    <a href="#pricing" class="text-gray-300 hover:text-white transition">Pricing</a>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <button onclick="handleLogin()" class="text-gray-300 hover:text-white font-medium transition">Log In</button>
+                    <button onclick="handleSignUp()" class="bg-summit-accent hover:bg-summit-accentHover text-white px-5 py-2 rounded-lg font-semibold transition shadow-lg shadow-summit-accent/20">
+                        Start Trading
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Live Market Ticker (Simulated) -->
+    <div class="mt-16 bg-summit-card border-b border-summit-border overflow-hidden py-3">
+        <div class="flex animate-ticker whitespace-nowrap">
+            <!-- Duplicate items to create a seamless infinite scroll -->
+            <div class="flex gap-8 px-4 text-sm font-medium">
+                <span class="text-gray-400">BTC/USD <span class="text-summit-accent">64,230.50 ▲ 2.4%</span></span>
+                <span class="text-gray-400">EUR/USD <span class="text-red-500">1.0842 ▼ 0.1%</span></span>
+                <span class="text-gray-400">ETH/USD <span class="text-summit-accent">3,120.10 ▲ 1.8%</span></span>
+                <span class="text-gray-400">GBP/JPY <span class="text-summit-accent">188.45 ▲ 0.5%</span></span>
+                <span class="text-gray-400">XAU/USD <span class="text-red-500">2,015.30 ▼ 0.3%</span></span>
+                <span class="text-gray-400">SOL/USD <span class="text-summit-accent">142.80 ▲ 5.2%</span></span>
+            </div>
+            <div class="flex gap-8 px-4 text-sm font-medium">
+                <span class="text-gray-400">BTC/USD <span class="text-summit-accent">64,230.50 ▲ 2.4%</span></span>
+                <span class="text-gray-400">EUR/USD <span class="text-red-500">1.0842 ▼ 0.1%</span></span>
+                <span class="text-gray-400">ETH/USD <span class="text-summit-accent">3,120.10 ▲ 1.8%</span></span>
+                <span class="text-gray-400">GBP/JPY <span class="text-summit-accent">188.45 ▲ 0.5%</span></span>
+                <span class="text-gray-400">XAU/USD <span class="text-red-500">2,015.30 ▼ 0.3%</span></span>
+                <span class="text-gray-400">SOL/USD <span class="text-summit-accent">142.80 ▲ 5.2%</span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden pt-20 pb-32">
+        <!-- Background Glow -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-summit-accent/10 rounded-full blur-[120px] pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-summit-accent/10 border border-summit-accent/20 text-summit-accent text-sm font-medium mb-6">
+                <span class="w-2 h-2 rounded-full bg-summit-accent animate-pulse"></span>
+                Markets are open
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6">
+                Elevate Your Trading <br>
+                <span class="bg-gradient-to-r from-summit-accent to-emerald-300 bg-clip-text text-transparent">To New Heights.</span>
+            </h1>
+            
+            <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-10">
+                Experience institutional-grade execution, real-time analytics, and bank-level security. SummitFX gives you the edge you need to conquer the markets.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="px-8 py-4 bg-summit-accent hover:bg-summit-accentHover text-white rounded-xl font-bold text-lg transition glow">
+                    Create Free Account
+                </button>
+                <button class="px-8 py-4 bg-summit-card hover:bg-gray-800 text-white border border-summit-border rounded-xl font-bold text-lg transition">
+                    View Live Demo
+                </button>
+            </div>
+
+            <!-- Mock Dashboard Preview -->
+            <div class="mt-20 glass-card rounded-2xl p-2 max-w-5xl mx-auto border border-summit-border shadow-2xl">
+                <div class="bg-summit-bg rounded-xl p-6 h-80 flex items-center justify-center text-gray-500 border border-summit-border">
+                    <!-- Placeholder for your TradingView Chart or Custom Chart Component -->
+                    <div class="text-center">
+                        <svg class="w-16 h-16 mx-auto text-gray-700 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                        <p class="text-lg font-medium">Interactive Trading Dashboard</p>
+                        <p class="text-sm text-gray-600 mt-1">Chart & Order Book UI will be integrated here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-summit-card/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Built for Serious Traders</h2>
+                <p class="text-gray-400 text-lg">Everything you need to execute your strategy flawlessly.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="glass-card p-8 rounded-2xl hover:border-summit-accent/30 transition">
+                    <div class="w-12 h-12 bg-summit-accent/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-summit-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Lightning Execution</h3>
+                    <p class="text-gray-400">Sub-millisecond order routing ensures you never miss a trade, even during high volatility.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="glass-card p-8 rounded-2xl hover:border-summit-accent/30 transition">
+                    <div class="w-12 h-12 bg-summit-accent/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-summit-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Bank-Grade Security</h3>
+                    <p class="text-gray-400">Powered by Supabase, your data and funds are protected by enterprise-level encryption and 2FA.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="glass-card p-8 rounded-2xl hover:border-summit-accent/30 transition">
+                    <div class="w-12 h-12 bg-summit-accent/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-summit-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Advanced Analytics</h3>
+                    <p class="text-gray-400">Deep market insights, real-time order books, and customizable indicators to inform your next move.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-summit-border py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 SummitFX. All rights reserved. Trading involves risk.</p>
+        </div>
+    </footer>
+
+    <!-- Basic Auth Functions -->
+    <script>
+        async function handleSignUp() {
+            // TODO: Implement Supabase Auth Sign Up
+            alert("Sign up flow coming soon! Connect your Supabase keys to activate.");
+        }
+
+        async function handleLogin() {
+            // TODO: Implement Supabase Auth Login
+            alert("Login flow coming soon! Connect your Supabase keys to activate.");
+        }
+    </script>
+</body>
+</html>
